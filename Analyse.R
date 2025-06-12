@@ -249,5 +249,5 @@ complete_merged_data %>%
   theme(axis.text.x = element_text(angle = 90, size = 10)) +
   labs(x = "MLST", y = "Total sequences", title = "KPSC") 
   
-table(complete_merged_data$strain, complete_merged_data$)
+table(complete_merged_data$strain, complete_merged_data$region)
 
