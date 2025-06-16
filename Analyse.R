@@ -53,10 +53,8 @@ complete_merged_data <- complete_merged_data %>%
          final_concentration = final_library_concentration_ng_u_l,
          region = geo_loc_name_admin1_e_g_region,
          laboratory_name  = geo_loc_name_admin1_e_g_location,
-         original_strain = origine_lab_organism_specif_ic)
-
-complete_merged_data <- complete_merged_data %>%
-  rename(patient_type = patient_in_out)
+         original_strain = origine_lab_organism_specif_ic,
+         patient_type = patient_in_out)
 
 complete_merged_data <- complete_merged_data %>%
   mutate(gender = case_match(gender,
@@ -118,7 +116,8 @@ sociodemo_data <- sociodemo_data %>%
          specimen_type = str_to_lower(specimen_type),
          strain = str_to_title(strain),
          strain_abrv = str_to_lower(strain_abrv)
-         )
+         ) %>%
+  dplyr::filter(strain_abrv != "autre")
 
 
 
@@ -195,7 +194,7 @@ sociodemo_data %>%
   drop_na() %>%
   tidyplot(color=strain_abrv) %>%
   add_pie() %>%
-  adjust_legend_title("Region") %>%
+  adjust_legend_title("Strain") %>%
   adjust_size(width = 150, height = 150)
 
 
@@ -250,4 +249,4 @@ complete_merged_data %>%
   labs(x = "MLST", y = "Total sequences", title = "KPSC") 
   
 table(complete_merged_data$strain, complete_merged_data$region)
-
+100*table(sociodemo_data$strain_abrv)/nrow(sociodemo_data)
